@@ -4,7 +4,9 @@
   "description": "Site d'annonces ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node-dev src/index.ts",
+    "resetDB": "ts-node-dev src/resetDb.ts"
   },
   "repository": {
     "type": "git",
@@ -19,7 +21,6 @@
     "url": "https://github.com/Atouzani7/the-good-corner/issues"
   },
   "homepage": "https://github.com/Atouzani7/the-good-corner#readme",
-  
   "dependencies": {
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.14",
-    "@types/express": "^4.17.17"
+    "@types/express": "^4.17.17",
+    "typescript": "^5.2.2"
   }
 }
