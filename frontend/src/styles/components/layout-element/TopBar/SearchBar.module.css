@@ -1,0 +1,11 @@
+.SearchBar{
+    width: 25vw;
+    height: 20px;
+    border-radius: 5px;
+    border: solid 1px #3F72AF;
+    margin: 20px;
+    box-shadow: #FFF6E0 1.95px 1.95px 2.6px;
+}
+.SearchBar:hover{
+    border: solid 2px #FFF6E0;
+}
