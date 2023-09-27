@@ -12,10 +12,10 @@
     border: solid  1px #272829;
     
 }
-.liste{
+.linkCategoriesBar{
     margin: 5px;
     color: #000000;
 }
-.liste:link {
+.linkCategoriesBar:link {
     text-decoration: none;
-  }
+  } 

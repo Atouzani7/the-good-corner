@@ -2,7 +2,7 @@
  *                           Premiere maniere de faire une layout
  *========================================================================**/
 import Layout1 from "@/components/Layout1";
-// import "@/styles/globals.css";
+import "@/styles/globals.css";
 import { NextComponentType, NextPageContext } from "next";
 import type { AppProps } from "next/app";
 import Head from "next/head";

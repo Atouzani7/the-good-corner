@@ -25,7 +25,7 @@ const data: Category[] = [
 ];
 function CategoriesBar() {
   return (
-    <div className={styles.categoriesBloc}>
+    <div className={styles.CategoriesBar}>
       {data.map((category) => (
         <ActiveLink
           key={category.id}
@@ -36,7 +36,7 @@ function CategoriesBar() {
           {category.name}
         </ActiveLink>
       ))}
-      <Link href="/categories/list">Voir plus...</Link>
+      <Link href="/categories/list" className={styles.linkCategoriesBar}>Voir plus...</Link>
     </div>
   );
 }

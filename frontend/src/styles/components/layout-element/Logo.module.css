@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Mooli&display=swap');
+
+
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
+
+
+.Logo{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    justify-items: center;
+    align-items: center;
+
+}
+
+.LogoName{
+    /* font-family: 'Mooli', sans-serif; */
+    text-decoration: none;
+    font-family: 'Dancing Script', cursive;
+    font-size: 32px;
+    color: #FFF6E0;
+
+}
+
+.LogoName:link {
+    text-decoration: none;
+  } 

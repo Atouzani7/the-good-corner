@@ -1,7 +1,7 @@
 import { Ad } from "@/types/ads";
 import axios from "axios";
 import { useRouter } from "next/router";
-import AdCard from "@/components/ads/Card";
+// import AdCard from "@/components/ads/Card";
 import { useEffect, useState } from "react";
 import styles from "@/styles/pages/categories/list/Categories.module.css";
 function ViewCategory() {
