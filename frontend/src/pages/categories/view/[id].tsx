@@ -1,7 +1,9 @@
-import { Ad } from "@/types/ads";
+import { Ad } from "@/type/ads";
 import axios from "axios";
+import axiosInstance from "@/lib/AxiosInstance";
 import { useRouter } from "next/router";
 // import AdCard from "@/components/ads/Card";
+import Card from "@/components/ads/Cards";
 import { useEffect, useState } from "react";
 import styles from "@/styles/pages/categories/list/Categories.module.css";
 function ViewCategory() {
@@ -19,12 +21,13 @@ function ViewCategory() {
   //   }
   //   //stocker dans une variable d'état
   // };
+  
   useEffect(() => {
     // getAds();
     if (router.query.id) {
-      axios
+      axiosInstance
         .get<Ad[]>(
-          `http://localhost:4000/ads/listbycategory/${router.query.id}`
+          `/ads/listbycategory/${router.query.id}`
         )
         .then(({ data }) => {
           console.log(data);
@@ -53,7 +56,7 @@ function ViewCategory() {
         {ads.length > 0 ? (
           // {ads.length ? (
           ads.map((a) => (
-            <AdCard
+            <Card
               key={a.id}
               id={a.id}
               picture={a.picture}

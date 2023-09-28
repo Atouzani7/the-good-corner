@@ -1,5 +1,5 @@
-import Card from "@/components/categories/Card";
-import { Category } from "@/types/categories";
+import Card from "@/components/ads/Cards";
+import { Category } from "@/type/categories.d";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "@/styles/pages/categories/list/Categories.module.css";

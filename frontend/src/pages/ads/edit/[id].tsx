@@ -1,10 +1,10 @@
-import SheetAd from "@/components/ads/SheetAd";
+import Form from "@/components/ads/Form";
 import axiosInstance from "@/lib/AxiosInstance";
-import { Ad } from "@/type/ads.d";
+import { Ad } from "@/type/ads";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-function ViewAd() {
+function ViewEdit() {
   const router = useRouter();
   const [ad, setAd] = useState<Ad>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,16 +26,17 @@ function ViewAd() {
     <div>
       {ad ? (
         <>
-          <SheetAd {...ad} />
+          <Form initialData={ad}/>
+          {/* <SheetAd {...ad} /> */}
           {/* <div>Titre: {ad?.title}</div>
           <div>Prix: {ad?.price}</div>
           <div>Description: {ad?.description}</div> */}
         </>
       ) : (
-<div>l anonce n existe pas </div>
+        <div>L'annonce n'existe pas</div>
       )}
     </div>
   );
 }
 
-export default ViewAd;
+export default ViewEdit;
