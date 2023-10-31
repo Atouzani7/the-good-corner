@@ -2,7 +2,7 @@ import Link from "next/link";
 import Logo from "../../common/Logo";
 import SearchBar from "./SearchBar";
 // import styles from "@/styles/components/layout-elements/topbar/Topbar.module.css";
-import styles from '/Users/asma/Documents/WildProject/the-good-corner/frontend/src/styles/components/layout-element/TopBar/TopBar.module.css'
+import styles from '/src/styles/components/layout-element/TopBar/TopBar.module.css'
 function Topbar() {
   return (
     <nav className={styles.topbar}>

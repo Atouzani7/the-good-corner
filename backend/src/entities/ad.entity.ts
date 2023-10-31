@@ -13,6 +13,7 @@ import {
   import { Category } from "./category.entity";
   import { Tag } from "./tag.entity";
 
+  @Entity()
 export class Ad extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;

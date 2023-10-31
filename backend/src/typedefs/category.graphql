@@ -1,0 +1,17 @@
+type Category {
+    id: ID
+    name: String
+    ads: [Ad]
+}
+
+type Query {
+    listCategories: [Category]
+    findCategories(id: ID): Category
+}
+type Mutation {
+    createCategory(data: CreateCategoryInput): Category
+}
+
+input CreateCategoryInput {
+    name: String
+}

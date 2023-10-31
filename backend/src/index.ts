@@ -1,36 +1,68 @@
-import "reflect-metadata";
-import express from "express";
-import db from "./db";
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone'; // permet de 
+import typeDefs from './typedefs';
+import resolvers from './resolvers';
+import db from './db';
 
-import categoryRouter from "./routes/categories.routes";
-import tagRouter from "./routes/tags.routes";
-import adRouter from "./routes/ads.routes";
-import cors from "cors";
+// // A schema is a collection of type definitions (hence "typeDefs")
+// // that together define the "shape" of queries that are executed against
+// // your data.
 
+const books = [
+  {
+    title: 'The Awakening',
+    author: 'Kate Chopin',
+  },
+  {
+    title: 'City of Glass',
+    author: 'Paul Auster',
+  },
+];
 
-const app = express();
-const port = 4000;
+// // Les résolveurs définissent la manière de récupérer les types définis dans votre schéma.
+// // This resolver retrieves books from the "books" array above.
 
-/**========================================================================
- *                           MIDDLEWARE GLOBAUX
- *========================================================================**/
+// // The ApolloServer constructor requires two parameters: your schema
+// // definition and your set of resolvers.
+// const server = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+// });
 
-app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000" })); //un seul
-// app.use(cors({ origin: ["http://localhost:3000", "", ""] })); //plusieurs
-// app.use(cors({ origin: "*" }));//tout le monde
+// // Passing an ApolloServer instance to the `startStandaloneServer` function:
+// //  1. creates an Express app
+// //  2. installs your ApolloServer instance as middleware
+// //  3. prepares your app to handle incoming requests
 
-/**========================================================================
- *                           Routes
- *========================================================================**/
-app.use("/categories", categoryRouter);
-app.use("/tags", tagRouter);
-app.use("/ads", adRouter);
+// async function main () {
+//   const { url } = await startStandaloneServer(server, {
+//   listen: { port: 4000 },
+//   context: async ({req, res}) => {
+//     return {toto: "tata" }
+//   }
+// })
+// await db.initialize();
+// console.log(`🚀  Server ready at: ${url}`)
+// }
+// ;
 
-/**========================================================================
- *                           Lancement du serveur
- *========================================================================**/
-app.listen(port, async () => {
-  await db.initialize();
-  console.log(`Server running on http://localhost:${port}`);
+// main();
+
+const server = new ApolloServer<{}>({
+  typeDefs, // => index.ts dans typeDef (.graphQL) => typeDef = shema
+  resolvers, // => index.ts dans resolver = Service
+
 });
+
+async function main() {
+  const { url } = await startStandaloneServer(server, {
+    listen: { port: 4000 },
+    context: async ({ req, res }) => {
+      return {};
+    },
+  });
+  await db.initialize();
+
+  console.log(`🚀  Server ready at: ${url}`);
+}
+main();
