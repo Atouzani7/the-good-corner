@@ -8,7 +8,7 @@ type Query {
 
 type Mutation {
   createAd(data: CreateAdInput): Ad
-  deleteAd(id: ID): Ad # on peut mettre plusierus Saclaire : ID , String 
+  deleteAd(id: ID): Ad # on peut mettre plusierus Scalaire : ID , String 
   updateAd(data: UpdateAdInput): Ad
 }
 
@@ -28,7 +28,7 @@ type Ad {
 
 #Inputs
 input PartialCategoryInput {
-  id: ID
+  id: ID!
 }
 input CreateAdInput {
   id: ID

@@ -25,6 +25,7 @@ export default class CategoryService {
   }
 
   async find(id: number) {
-    return await this.db.findOneBy({ id });
+    // return await this.db.findOneBy({ id });
+    return await this.db.findOne({ where: { id }, relations: { ads: true } });
   }
 }
