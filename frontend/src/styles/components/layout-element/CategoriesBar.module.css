@@ -1,0 +1,21 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Mooli&family=Roboto:wght@100&display=swap');
+
+
+.CategoriesBar{
+    display: flex;
+    justify-content: space-around;
+    font-family: 'Roboto', sans-serif;
+    color: #000000;
+    background-color: #FFF7E6;
+    border: solid  1px #272829;
+    
+}
+.linkCategoriesBar{
+    margin: 5px;
+    color: #000000;
+}
+.linkCategoriesBar:link {
+    text-decoration: none;
+  } 

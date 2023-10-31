@@ -1,0 +1,53 @@
+#Query & Mutaion // permet de déclarer les route dans nos resolver 
+# On déclare la méthode dans le resolver
+type Query {
+    listAds: [Ad]
+    listAdsByCategory(id: ID): Ad 
+    findAdById(id: ID): Ad 
+    }
+
+type Mutation {
+  createAd(data: CreateAdInput): Ad
+  deleteAd(id: ID): Ad # on peut mettre plusierus Saclaire : ID , String 
+  updateAd(data: UpdateAdInput): Ad
+}
+
+# Types
+type Ad {
+    id: ID
+    title: String
+    description: String
+    owner: String
+    Location: String
+    picture: String
+    createdAt: String
+    updateAt: String
+    category: [Category]
+    # tags: [tag]
+}
+
+#Inputs
+input PartialCategoryInput {
+  id: ID
+}
+input CreateAdInput {
+  id: ID
+  title: String!
+  description: String!
+  owner: String!
+  price: Float!
+  location: String!
+  picture: String!
+  category: PartialCategoryInput
+}
+
+input UpdateAdInput {
+  id: ID!
+  title: String
+  description: String
+  owner: String
+  price: Float
+  location: String
+  picture: String
+  category: PartialCategoryInput
+}

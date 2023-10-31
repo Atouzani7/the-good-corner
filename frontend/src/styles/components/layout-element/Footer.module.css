@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Mooli&family=Roboto:wght@100&display=swap');
+
+.footer{
+
+    background-color: #272829;
+    display: block;
+    position: relative;
+    height: 10vh;
+    color: #FFF7E6;
+    font-family: 'Dancing Script', cursive;
+    font-size: 32px;
+    text-decoration: none;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+}
