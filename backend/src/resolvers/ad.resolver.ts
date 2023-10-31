@@ -16,7 +16,7 @@ export default {
       const ads = await new AdsService().listByCategory(+id);
       return ads;
         },
-         findAdById: async (_: any, {id}:  {id: string}) => { // Arguments (parent, param dans la query .graphQL, le ctx , )
+         findAdById: async (_: any, {id}:  {id: string}) => { // Arguments (parent, param dans la query .graphQL, le ctx , ) // {id: string} remplacable par : QueryFindAdByIdArgs, trouvé dans le resolver
                 console.log(id);
                 const ad = await new AdsService().find(+id);
                 if (!ad) {

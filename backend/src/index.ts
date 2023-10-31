@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone'; // permet de 
 import typeDefs from './typedefs';

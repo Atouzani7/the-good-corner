@@ -1,7 +1,7 @@
 import { In, Repository } from "typeorm";
 import { Ad } from "../entities/ad.entity";
 import datasource from "../db";
-import { IAdForm } from "../types/ads";
+import { IAdForm, IUpdateAdForm } from "../types/ads";
 import { validate } from "class-validator";
 import CategoryService from "./category.service";
 export default class AdsService {
@@ -65,7 +65,7 @@ export default class AdsService {
     return await this.db.remove(adToDelete);
   }
 
-  async update(id: number, data: IAdForm) {
+  async update(id: number, data: IUpdateAdForm) {
     const adToUpdate = await this.find(id);
     if (!adToUpdate) {
       throw new Error("L'annonce n'existe pas!");
