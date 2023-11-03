@@ -1,38 +1,99 @@
-import { Ad } from "@/type/ads";
-import axios from "axios";
-import axiosInstance from "@/lib/AxiosInstance";
+// import { Ad } from "@/types/ads";
+// import axios from "axios";
+// import { useRouter } from "next/router";
+// import AdCard from "@/components/ads/Cards";
+// import { useEffect, useState } from "react";
+// import styles from "@/styles/pages/categories/list/Categories.module.css";
+// import { useLazyQuery } from "@apollo/client";
+// import { LIST_ADS_BY_CATEGORY_ID } from "@/requetes/queries/ads.querie";
+// function ViewCategory() {
+//   const router = useRouter();
+//   console.log("router.query.id", router.query.id);
+//   const [ads, setAds] = useState<Ad[]>([]);
+
+//   const [getAds, { data, loading, error }] = useLazyQuery(
+//     LIST_ADS_BY_CATEGORY_ID
+//   );
+
+//   console.log("%c⧭", "color: #e50000", data);
+//   useEffect(() => {
+//     // getAds();
+//     if (router.query.id) {
+//       getAds({
+//         variables: {
+//           listAdsByCategoryId: router.query.id,
+//         },
+//       });
+//     }
+//   }, [getAds, router.query.id]);
+
+//   /**======================
+//    *    conditions plus complexes qu'un ternaire
+//    *========================**/
+//   // const monexemple = () => {
+//   //   let result = <></>;
+//   //   if (ads.length > 0) {
+//   //     result = <div>Tiens j'ai des annonces</div>;
+//   //   } else {
+//   //     result = <div>Il n'y a pas d'annonces</div>;
+//   //   }
+//   //   return result;
+//   // };
+//   return (
+//     <div>
+//       Visualisation de la catégorie ayant l'id : {router.query.id}
+//       <div className={styles.imageBloc}>
+//         {/* {monexemple()} */}
+//         {data?.listAdsByCategory.length > 0 ? (
+//           // {ads.length ? (
+//           data?.listAdsByCategory.map((a: any) => (
+//             <AdCard
+//               key={a.id}
+//               id={a.id}
+//               picture={a.picture}
+//               price={a.price}
+//               title={a.title}
+//             />
+//           ))
+//         ) : (
+//           <div>Revenez plus tard, pas d'annonces pour l'instant</div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+// ViewCategory.title = "Détail catégorie";
+// export default ViewCategory;
+
+
+import { Ad } from "@/types/ads";
 import { useRouter } from "next/router";
-// import AdCard from "@/components/ads/Card";
-import Card from "@/components/ads/Cards";
+import AdCard from "@/components/ads/Cards";
 import { useEffect, useState } from "react";
 import styles from "@/styles/pages/categories/list/Categories.module.css";
+// import { useLazyQuery } from "@apollo/client";
+// import { LIST_ADS_BY_CATEGORY_ID } from "@/requetes/queries/ads.queries";
+import {
+  ListAdsByCategoryQuery,
+  useListAdsByCategoryLazyQuery,
+} from "@/types/graphql";
 function ViewCategory() {
   const router = useRouter();
-
+  console.log("router.query.id", router.query.id);
   const [ads, setAds] = useState<Ad[]>([]);
-  // const getAds = async () => {
-  //   console.log(router.query.id);
-  //   if (router.query.id) {
-  //     const ads = await axios.get(
-  //       `http://localhost:4000/ads/listbycategory/${router.query.id}`
-  //     );
-  //     console.log("%c⧭", "color: #0088cc", ads);
-  //     // return ads;
-  //   }
-  //   //stocker dans une variable d'état
-  // };
-  
+
+  const [getAds, { data, loading, error }] = useListAdsByCategoryLazyQuery();
+  // const [getAds, { data, loading, error }] = useLazyQuery<ListAdsByCategoryQuery>(
+  //   LIST_ADS_BY_CATEGORY_ID
+  // );
+
   useEffect(() => {
-    // getAds();
     if (router.query.id) {
-      axiosInstance
-        .get<Ad[]>(
-          `/ads/listbycategory/${router.query.id}`
-        )
-        .then(({ data }) => {
-          console.log(data);
-          setAds(data);
-        });
+      getAds({
+        variables: {
+          listAdsByCategoryId: router.query.id as string,
+        },
+      });
     }
   }, [router.query.id]);
 
@@ -53,10 +114,10 @@ function ViewCategory() {
       Visualisation de la catégorie ayant l'id : {router.query.id}
       <div className={styles.imageBloc}>
         {/* {monexemple()} */}
-        {ads.length > 0 ? (
+        {data?.listAdsByCategory && data?.listAdsByCategory.length > 0 ? (
           // {ads.length ? (
-          ads.map((a) => (
-            <Card
+          data?.listAdsByCategory.map((a) => (
+            <AdCard
               key={a.id}
               id={a.id}
               picture={a.picture}

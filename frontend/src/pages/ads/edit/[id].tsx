@@ -1,21 +1,33 @@
 import Form from "@/components/ads/Form";
-import axiosInstance from "@/lib/AxiosInstance";
-import { Ad } from "@/type/ads";
+// import axiosInstance from "@/lib/AxiosInstance";
+import { Ad } from "@/types/ads";
+import { useFindAdByIdLazyQuery } from "@/types/graphql";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 function ViewEdit() {
   const router = useRouter();
-  const [ad, setAd] = useState<Ad>();
-  const [loading, setLoading] = useState<boolean>(true);
+
+  const [getAd, {data, loading}] = useFindAdByIdLazyQuery();
+  console.log( 'color: #ffa640', 'data :', data);
+  
+  // const [ad, setAd] = useState<Ad>();
+  // const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (router.query.id) {
-      axiosInstance.get<Ad>(`/ads/find/${router.query.id}`).then(({ data }) => {
-        setAd(data);
-        setLoading(false);
-      });
-    }
+    const {id} = router.query;
+    // if (router.query.id) {
+      console.log('ID :', 'color: #00b300', id)
+      if (id) {
+        getAd({
+          variables: { findAdById: id as string},
+        });
+      }
+    //   axiosInstance.get<Ad>(`/ads/find/${router.query.id}`).then(({ data }) => {
+    //     setAd(data);
+    //     setLoading(false);
+    //   });
+    // }
   }, [router.query.id]);
 
   if (loading) {
@@ -23,19 +35,27 @@ function ViewEdit() {
   }
 
   return (
+    // <div>
+    //   {ad ? (
+    //     <>
+    //       <Form initialData={ad}/>
+    //       {/* <SheetAd {...ad} /> */}
+    //       {/* <div>Titre: {ad?.title}</div>
+    //       <div>Prix: {ad?.price}</div>
+    //       <div>Description: {ad?.description}</div> */}
+    //     </>
+    //   
+    //   )}
+    // </div>
     <div>
-      {ad ? (
+      {data?.findAdById ? (
         <>
-          <Form initialData={ad}/>
-          {/* <SheetAd {...ad} /> */}
-          {/* <div>Titre: {ad?.title}</div>
-          <div>Prix: {ad?.price}</div>
-          <div>Description: {ad?.description}</div> */}
+        <Form data={data?.findAdById} />
         </>
       ) : (
         <div>L'annonce n'existe pas</div>
-      )}
-    </div>
+        )}
+      </div>
   );
 }
 

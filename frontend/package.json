@@ -1,28 +1,37 @@
 {
-  "name": "the-good-corner",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate": "graphql-codegen --watch"
   },
   "dependencies": {
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest"
-  },
-  "devDependencies": {
+    "@apollo/client": "^3.8.6",
+    "@apollo/server": "^4.9.5",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@graphql-codegen/typescript-react-apollo": "^4.1.0",
+    "@hookform/resolvers": "^3.3.1",
     "@types/node": "20.6.5",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
     "axios": "^1.5.1",
-    "eslint": "^8.50.0",
+    "eslint": "8.50.0",
     "eslint-config-next": "13.5.2",
+    "graphql": "^16.8.1",
     "next": "13.5.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.2.2"
+    "react-hook-form": "^7.46.2",
+    "typescript": "5.2.2",
+    "yup": "^1.3.1"
+  },
+  "devDependencies": {
+    "@parcel/watcher": "^2.3.0"
   }
 }

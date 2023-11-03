@@ -1,4 +1,4 @@
-import { Ad } from "@/type/ads.d";
+import { Ad } from "@/types/ads";
 import { formatAmount } from "@/lib/utilities";
 
 function SheetAd({ title, price, description }: Ad) {

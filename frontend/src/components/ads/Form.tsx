@@ -1,21 +1,57 @@
-// import styles from "@/styles/pages/ads/Form.module.css";
-import styles from '@/styles/components/Layout1.module.css';
-import axiosInstance from "@/lib/AxiosInstance";
-import { Ad, IAdForm, FormEditOrCreate } from "@/type/ads";
-import { Category } from "@/type/categories.d";
+import styles from "@/styles/pages/ads/Form.module.css";
+import { IAdForm, FormEditOrCreate, IUpdateForm } from "@/types/ads";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-function Form({ initialData }: FormEditOrCreate) {
-  const router = useRouter();
-  const [categories, setCategories] = useState<Category[]>([]);
+import {
+  useListCategoriesQuery,
+  useCreateAdMutation,
+  useUpdateAdMutation,
+  FindForEditAdByIdQueryVariables,
+  Ad,
+  PartialCategoryInput,
+  CreateAdInput,
+  UpdateAdInput,
+  FindAdByIdQueryResult,
+  FindAdByIdQueryHookResult,
+  FindForEditAdByIdQuery,
+} from "@/types/graphql";
+interface IError {
+  field: string | null;
+  message: string;
+}
+interface InitialData
+  extends Omit<Ad, "category" | "__typename"> {
+  category: { id: string };
+  // description?: string | null;
+}
+function Form({ data }: { data: FindForEditAdByIdQuery["findAdById"] }) {
+  const { createdAt, updatedAt, ...initialData } = data;
 
-  const [formulaireData, setFormulaireData] = useState<IAdForm>({} as IAdForm);
+  const router = useRouter();
+
+  const { data: categoriesData } = useListCategoriesQuery();
+
+  const [createAd] = useCreateAdMutation({
+    onCompleted(data) {
+      router.push(`/categories/view/${data.createAd.category?.id}`);
+    },
+  });
+
+  const [updateAd] = useUpdateAdMutation({
+    onCompleted(data) {
+      router.push(`/categories/view/${data.updateAd.category?.id}`);
+    },
+  });
+
+  const [errors, setErrors] = useState<IError[]>([] as IError[]);
+  const [formulaireData, setFormulaireData] = useState<CreateAdInput>(
+    {} as CreateAdInput
+  );
 
   useEffect(() => {
-    axiosInstance
-      .get<Category[]>("/categories/list", {})
-      .then(({ data }) => setCategories(data));
-
+    console.log("errors", errors);
+  }, [errors]);
+  useEffect(() => {
     if (initialData) {
       setFormulaireData(initialData);
     }
@@ -47,24 +83,57 @@ function Form({ initialData }: FormEditOrCreate) {
     setFormulaireData({ ...formulaireData, [e.target.name]: value }); //{...formulaireData, title: valeur}
   };
 
+  const getError = (field: string) => {
+    let errorText = "";
+    if (errors.length) {
+      let error = errors.find((e) => e.field === field);
+      if (error) {
+        errorText = error.message;
+      }
+    }
+
+    return errorText;
+  };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrors([]);
+
     if (!initialData) {
-      axiosInstance
-        .post("/ads/create", formulaireData)
-        .then(({ data }) => {
-          //si tout se passe bien, rediriger vers la catégorie
-          router.push(`/categories/view/${data.category?.id}`);
-        })
-        .catch((err) => console.log(err));
+      createAd({
+        variables: {
+          data: formulaireData as CreateAdInput,
+        },
+      });
+
+      // axiosInstance
+      //   .post("/ads/create", formulaireData)
+      //   .then(({ data }) => {
+      //     //si tout se passe bien, rediriger vers la catégorie
+      //     router.push(`/categories/view/${data.category?.id}`);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     setErrors(err.response.data?.errors);
+      //   });
     } else {
       //faire l'update
-      axiosInstance
-        .patch(`/ads/update/${initialData.id}`, formulaireData)
-        .then(({ data }) => {
-          router.push(`/categories/view/${data.category?.id}`);
-        })
-        .catch((err) => console.log(err));
+      // axiosInstance
+      //   .patch(`/ads/update/${initialData.id}`, formulaireData)
+      //   .then(({ data }) => {
+      //     router.push(`/categories/view/${data.category?.id}`);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     setErrors(err.response.data?.errors);
+      //   });
+
+      const formD = formulaireData as UpdateAdInput;
+
+      updateAd({
+        variables: {
+          data: { ...formD, id: router.query.id as string },
+        },
+      });
     }
   };
 
@@ -77,12 +146,13 @@ function Form({ initialData }: FormEditOrCreate) {
         onChange={handleChange}
         value={formulaireData.title}
       />
+      <span>{getError("title")}</span>
       <input
         name="description"
         placeholder="description"
         className={styles.inputForm}
         onChange={handleChange}
-        value={formulaireData.description}
+        value={formulaireData.description ?? ""}
       />
       <input
         name="owner"
@@ -101,6 +171,8 @@ function Form({ initialData }: FormEditOrCreate) {
         pattern="[0-9]*"
         value={formulaireData.price}
       />
+      <span>{getError("price")}</span>
+
       <input
         name="location"
         placeholder="location"
@@ -122,7 +194,7 @@ function Form({ initialData }: FormEditOrCreate) {
         value={formulaireData.category?.id}
       >
         <option>Choisissez une catégorie</option>
-        {categories.map((c) => (
+        {categoriesData?.listCategories.map((c) => (
           <option key={c.id} value={c.id}>
             {c.name}
           </option>

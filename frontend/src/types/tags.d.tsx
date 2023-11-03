@@ -1,4 +1,4 @@
-import { Ad } from "./ads.d";
+import { Ad } from "./ads";
 export interface Tag {
   id: number;
   name: string;

@@ -16,4 +16,4 @@ Categories.getLayout = function getLayout(page: any) {
     </div>
   );
 };
-export default Categories;
+export default Categories; 
