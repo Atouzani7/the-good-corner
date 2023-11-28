@@ -44,13 +44,6 @@ export type AdDeleted = {
   updatedAt: Scalars['String']['output'];
 };
 
-export type AdWithFilter = {
-  __typename?: 'AdWithFilter';
-  category: Array<PartialCategoryForFilter>;
-  id: Scalars['ID']['output'];
-  title: Scalars['String']['output'];
-};
-
 export type Category = {
   __typename?: 'Category';
   ads: Array<Ad>;
@@ -70,11 +63,6 @@ export type CreateAdInput = {
 
 export type CreateCategoryInput = {
   name: Scalars['String']['input'];
-};
-
-export type FilterAd = {
-  categoryId?: InputMaybe<Scalars['ID']['input']>;
-  title: Scalars['String']['input'];
 };
 
 export type Mutation = {
@@ -105,23 +93,16 @@ export type MutationUpdateAdArgs = {
   data: UpdateAdInput;
 };
 
-export type PartialCategoryForFilter = {
-  __typename?: 'PartialCategoryForFilter';
-  id: Scalars['ID']['output'];
-  name: Scalars['String']['output'];
-};
-
 export type PartialCategoryInput = {
   id: Scalars['ID']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  findAdById: Ad;
+  findAdById: Array<Ad>;
   findCategory: Category;
   listAds: Array<Ad>;
   listAdsByCategory: Array<Ad>;
-  listAdsWithFilter: Array<AdWithFilter>;
   listCategories: Array<Category>;
 };
 
@@ -138,11 +119,6 @@ export type QueryFindCategoryArgs = {
 
 export type QueryListAdsByCategoryArgs = {
   id: Scalars['String']['input'];
-};
-
-
-export type QueryListAdsWithFilterArgs = {
-  filter: FilterAd;
 };
 
 export type UpdateAdInput = {

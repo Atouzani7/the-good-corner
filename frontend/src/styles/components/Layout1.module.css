@@ -1,7 +1,9 @@
 .mainBloc{
 background-color: #FFF7E6;
+/* background-color: blueviolet; */
+height: 100vh;
 }
-
+ 
 .container{
 
 }
@@ -11,5 +13,8 @@ background-color: #FFF7E6;
 }
 
 .footer{
+
+}
+.app{
 
 }

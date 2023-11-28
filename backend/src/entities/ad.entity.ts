@@ -12,9 +12,11 @@ import {
   import { Length, Min } from "class-validator";
   import { Category } from "./category.entity";
   import { Tag } from "./tag.entity";
-import { Field, Float, ID, InputType, ObjectType } from "type-graphql";
-import { isUndefined } from "util";
+  import { Field, Float, ID, InputType, ObjectType } from "type-graphql";
 
+/**========================================================================
+ * todo                            Objet type
+ *========================================================================**/
   @ObjectType()
   @Entity()
 export class Ad extends BaseEntity {
@@ -109,6 +111,27 @@ export class AdDeleted {
   // tags: Tag[];
 }
 
+@ObjectType()
+export class PartialCategoryForFilter {
+  @Field(() => ID)
+  id: string;
+
+  @Field()
+  name: string;
+}
+@ObjectType()
+export class AdWithFilter {
+
+  @Field(() => ID)
+  id: string;
+ 
+  @Field()
+  title: string; 
+ 
+  @Field(() => [PartialCategoryForFilter])
+  category: PartialCategoryForFilter[];
+}
+
 /**========================================================================
  * todo                            INPUT
  *========================================================================**/ 
@@ -155,4 +178,16 @@ export class UpdateAdInput {
   picture: string
   @Field({nullable: true})
   category: PartialCategoryInput
+}
+
+@InputType()
+export class FilterAd {
+  
+  @Field()
+  title: string
+
+  // évolution à venir, indiquer un categoryId pour filter dans une categorie
+  @Field(() => ID, {nullable: true})
+  categoryId?: string
+
 }

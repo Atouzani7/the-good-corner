@@ -4,8 +4,6 @@ function Categories() {
   return <div>Liste des catégories</div>;
 }
 
-
-
 Categories.getLayout = function getLayout(page: any) {
   return (
     <div>

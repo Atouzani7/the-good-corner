@@ -84,7 +84,7 @@ function Categories() {
           <Card key={c.id} id={c.id} name={c.name} />
         ))}
       </div>
-      <button onClick={() => refetch()}>Rafraichir</button>
+      <button onClick={() => refetch()} className={styles.adCardButton}>Rafraichir</button>
     </div>
   );
 }

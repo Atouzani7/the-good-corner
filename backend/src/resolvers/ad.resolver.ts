@@ -3,7 +3,7 @@ import AdsService from "../services/ads.service"
 import CategoryService from "../services/category.service";
 import { IAdForm, IUpdateAdForm } from "../types/ads";
 import { MutationDeleteAdArgs } from "../types/resolvers-types";
-import { Ad, AdDeleted, CreateAdInput, UpdateAdInput } from "../entities/ad.entity";
+import { Ad, AdDeleted, AdWithFilter, CreateAdInput, FilterAd, UpdateAdInput } from "../entities/ad.entity";
 
 
 //todo ____________ Avec GraphType
@@ -16,6 +16,13 @@ export class AdResolver {
     console.log("ADS", ads);
     return ads;
   }
+    
+  @Query(() => [AdWithFilter])
+  async listAdsWithFilter(@Arg("filter") filter: FilterAd ) {
+    const ads = await new AdsService().listWithFilter(filter);
+    return ads;
+  }
+
   @Query(() => [Ad])
   async listAdsByCategory(@Arg("id") id: string) {
     const category = await new CategoryService().find(+id);
@@ -25,23 +32,29 @@ export class AdResolver {
     const ads = await new AdsService().listByCategory(+id);
     return ads;
   }
-  @Query(() => [Ad])
-  async findAdById(@Arg("id") id: string){
-    console.log(id);
+  @Query(() => Ad)
+  async findAdById(@Arg("id") id: string) {
+    console.log("id", id);
+    console.log("TYPE", typeof id);
+    if (!isNaN(+id)) {
+      throw new Error("Indiquez un id correct");
+    }
     const ad = await new AdsService().find(+id);
     if (!ad) {
-    throw new Error("L'annonce n'existe pas");
+      throw new Error("Attention, l'annonce n'existe pas");
     }
     return ad;
   }
+
   @Mutation(() => Ad)
   async createAd(@Arg("data") data: CreateAdInput) {
     const newAd = await new AdsService().create(data);
       return newAd;
   }
   @Mutation(() => AdDeleted)
-  async deleteAd(@Arg("id") id: string){
-    return await new AdsService().delete(+id);
+  async deleteAd(@Arg("id") id: string) {
+    const { id: idAd, ...ad } = await new AdsService().delete(+id);
+    return ad;
   }
   @Mutation(() => Ad)
   async updateAd(@Arg("data") data: UpdateAdInput) {

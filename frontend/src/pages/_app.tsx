@@ -2,7 +2,7 @@
  *                           Premiere maniere de faire une layout
  *========================================================================**/
 import Layout1 from "@/components/Layout1";
-// import "@/styles/globals.css";
+import "@/styles/globals.css";
 import { NextComponentType, NextPageContext } from "next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
@@ -11,6 +11,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 const client = new ApolloClient({
   uri: "http://localhost:4000",
   cache: new InMemoryCache({ addTypename: false }),
+  // defaultOptions: {watchQuery: {fetchPolicy: "no-cache"}}
 });
 interface ComponentWithTitle extends AppProps {
   Component: NextComponentType<NextPageContext, any, any> & {
