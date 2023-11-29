@@ -6,11 +6,19 @@ import { Category, CreateCategoryInput } from "../entities/category.entity";
 
 @Resolver(() => Category)
 export default class CategoryResolver {
+  // @Query(() => [Category])
+  // async listCategories() {
+  //   const categories = await new CategoryService().list();
+  //   return categories;
+  // }
+
   @Query(() => [Category])
-  async listCategories() {
-    const categories = await new CategoryService().list();
+  async listCategories(@Arg("limit", { nullable: true }) limit: number) {
+    console.log("LIMIT", limit);
+    const categories = await new CategoryService().list(limit);
     return categories;
   }
+
   @Query(() => Category)
   async findCategory(@Arg("id") id: string) {
     const category = await new CategoryService().find(+id);

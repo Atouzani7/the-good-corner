@@ -9,11 +9,23 @@ export default class CategoryService {
     this.db = datasource.getRepository(Category);
   }
 
-  async list() {
+  // async list() {
+  //   const categories = await this.db.find({
+  //     relations: {
+  //       ads: true,
+  //     },
+  //   });
+
+  //   return categories;
+  // }
+
+
+  async list(limit?: number) {
     const categories = await this.db.find({
       relations: {
         ads: true,
       },
+      take: limit ?? undefined
     });
 
     return categories;
