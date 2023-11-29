@@ -3,7 +3,6 @@
 .accueil{
     background-color: #FFF7E6;
     font-family: 'Roboto', sans-serif;
-    height: 90vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,8 +12,9 @@
 
         /* font-family: 'Mooli', sans-serif; */
         font-family: 'Dancing Script', cursive;
-        font-size: 32px;
+        font-size: 22px;
         color: #272829;
         text-decoration: none;
+        padding: 4px;
 
 }

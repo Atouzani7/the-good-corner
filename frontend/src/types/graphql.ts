@@ -122,6 +122,7 @@ export type Query = {
   findCategory: Category;
   listAds: Array<Ad>;
   listAdsByCategory: Array<Ad>;
+  listAdsRandom: Array<Ad>;
   listAdsWithFilter: Array<AdWithFilter>;
   listCategories: Array<Category>;
 };
@@ -144,6 +145,11 @@ export type QueryListAdsByCategoryArgs = {
 
 export type QueryListAdsWithFilterArgs = {
   filter: FilterAd;
+};
+
+
+export type QueryListCategoriesArgs = {
+  limit?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type Tag = {
@@ -178,6 +184,13 @@ export type UpdateAdMutationVariables = Exact<{
 
 export type UpdateAdMutation = { __typename?: 'Mutation', updateAd: { __typename?: 'Ad', id: string, title: string, description?: string | null, owner: string, price: number, location: string, picture: string, category: { __typename?: 'Category', id: string } } };
 
+export type DeleteAdMutationVariables = Exact<{
+  deleteAdId: Scalars['String']['input'];
+}>;
+
+
+export type DeleteAdMutation = { __typename?: 'Mutation', deleteAd: { __typename?: 'AdDeleted', title: string } };
+
 export type ListAdsByCategoryQueryVariables = Exact<{
   listAdsByCategoryId: Scalars['String']['input'];
 }>;
@@ -206,10 +219,17 @@ export type ListAdsWithFilterQueryVariables = Exact<{
 
 export type ListAdsWithFilterQuery = { __typename?: 'Query', listAdsWithFilter: Array<{ __typename?: 'AdWithFilter', title: string, id: string, category: { __typename?: 'PartialCategoryForFilter', name: string, id: string } }> };
 
-export type ListCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ListAdsRandomQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListCategoriesQuery = { __typename?: 'Query', listCategories: Array<{ __typename?: 'Category', name: string, id: string }> };
+export type ListAdsRandomQuery = { __typename?: 'Query', listAdsRandom: Array<{ __typename?: 'Ad', id: string, picture: string, price: number, title: string }> };
+
+export type ListCategoriesQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type ListCategoriesQuery = { __typename?: 'Query', listCategories: Array<{ __typename?: 'Category', id: string, name: string }> };
 
 
 export const CreateAdDocument = gql`
@@ -289,6 +309,39 @@ export function useUpdateAdMutation(baseOptions?: Apollo.MutationHookOptions<Upd
 export type UpdateAdMutationHookResult = ReturnType<typeof useUpdateAdMutation>;
 export type UpdateAdMutationResult = Apollo.MutationResult<UpdateAdMutation>;
 export type UpdateAdMutationOptions = Apollo.BaseMutationOptions<UpdateAdMutation, UpdateAdMutationVariables>;
+export const DeleteAdDocument = gql`
+    mutation DeleteAd($deleteAdId: String!) {
+  deleteAd(id: $deleteAdId) {
+    title
+  }
+}
+    `;
+export type DeleteAdMutationFn = Apollo.MutationFunction<DeleteAdMutation, DeleteAdMutationVariables>;
+
+/**
+ * __useDeleteAdMutation__
+ *
+ * To run a mutation, you first call `useDeleteAdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteAdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteAdMutation, { data, loading, error }] = useDeleteAdMutation({
+ *   variables: {
+ *      deleteAdId: // value for 'deleteAdId'
+ *   },
+ * });
+ */
+export function useDeleteAdMutation(baseOptions?: Apollo.MutationHookOptions<DeleteAdMutation, DeleteAdMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteAdMutation, DeleteAdMutationVariables>(DeleteAdDocument, options);
+      }
+export type DeleteAdMutationHookResult = ReturnType<typeof useDeleteAdMutation>;
+export type DeleteAdMutationResult = Apollo.MutationResult<DeleteAdMutation>;
+export type DeleteAdMutationOptions = Apollo.BaseMutationOptions<DeleteAdMutation, DeleteAdMutationVariables>;
 export const ListAdsByCategoryDocument = gql`
     query ListAdsByCategory($listAdsByCategoryId: String!) {
   listAdsByCategory(id: $listAdsByCategoryId) {
@@ -470,11 +523,53 @@ export type ListAdsWithFilterQueryHookResult = ReturnType<typeof useListAdsWithF
 export type ListAdsWithFilterLazyQueryHookResult = ReturnType<typeof useListAdsWithFilterLazyQuery>;
 export type ListAdsWithFilterSuspenseQueryHookResult = ReturnType<typeof useListAdsWithFilterSuspenseQuery>;
 export type ListAdsWithFilterQueryResult = Apollo.QueryResult<ListAdsWithFilterQuery, ListAdsWithFilterQueryVariables>;
-export const ListCategoriesDocument = gql`
-    query ListCategories {
-  listCategories {
-    name
+export const ListAdsRandomDocument = gql`
+    query ListAdsRandom {
+  listAdsRandom {
     id
+    picture
+    price
+    title
+  }
+}
+    `;
+
+/**
+ * __useListAdsRandomQuery__
+ *
+ * To run a query within a React component, call `useListAdsRandomQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListAdsRandomQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListAdsRandomQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useListAdsRandomQuery(baseOptions?: Apollo.QueryHookOptions<ListAdsRandomQuery, ListAdsRandomQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListAdsRandomQuery, ListAdsRandomQueryVariables>(ListAdsRandomDocument, options);
+      }
+export function useListAdsRandomLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListAdsRandomQuery, ListAdsRandomQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListAdsRandomQuery, ListAdsRandomQueryVariables>(ListAdsRandomDocument, options);
+        }
+export function useListAdsRandomSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ListAdsRandomQuery, ListAdsRandomQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ListAdsRandomQuery, ListAdsRandomQueryVariables>(ListAdsRandomDocument, options);
+        }
+export type ListAdsRandomQueryHookResult = ReturnType<typeof useListAdsRandomQuery>;
+export type ListAdsRandomLazyQueryHookResult = ReturnType<typeof useListAdsRandomLazyQuery>;
+export type ListAdsRandomSuspenseQueryHookResult = ReturnType<typeof useListAdsRandomSuspenseQuery>;
+export type ListAdsRandomQueryResult = Apollo.QueryResult<ListAdsRandomQuery, ListAdsRandomQueryVariables>;
+export const ListCategoriesDocument = gql`
+    query ListCategories($limit: Float) {
+  listCategories(limit: $limit) {
+    id
+    name
   }
 }
     `;
@@ -491,6 +586,7 @@ export const ListCategoriesDocument = gql`
  * @example
  * const { data, loading, error } = useListCategoriesQuery({
  *   variables: {
+ *      limit: // value for 'limit'
  *   },
  * });
  */
