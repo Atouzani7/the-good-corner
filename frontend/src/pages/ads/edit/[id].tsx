@@ -1,33 +1,30 @@
+//frontend/src/pages/ads/edit/[id].tsx
+
 import Form from "@/components/ads/Form";
-// import axiosInstance from "@/lib/AxiosInstance";
+import axiosInstance from "@/lib/axiosInstance";
 import { Ad } from "@/types/ads";
-import { useFindAdByIdLazyQuery } from "@/types/graphql";
+import {
+  useFindAdByIdLazyQuery,
+  useFindForEditAdByIdLazyQuery,
+  useFindForEditAdByIdQuery,
+} from "@/types/graphql";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 function ViewEdit() {
   const router = useRouter();
 
-  const [getAd, {data, loading}] = useFindAdByIdLazyQuery();
-  console.log( 'color: #ffa640', 'data :', data);
-  
-  // const [ad, setAd] = useState<Ad>();
-  // const [loading, setLoading] = useState<boolean>(true);
+  const [getAd, { data, loading }] = useFindForEditAdByIdLazyQuery();
+  console.log('%c⧭', 'color: #ffa640', data);
 
   useEffect(() => {
-    const {id} = router.query;
-    // if (router.query.id) {
-      console.log('ID :', 'color: #00b300', id)
-      if (id) {
-        getAd({
-          variables: { findAdById: id as string},
-        });
-      }
-    //   axiosInstance.get<Ad>(`/ads/find/${router.query.id}`).then(({ data }) => {
-    //     setAd(data);
-    //     setLoading(false);
-    //   });
-    // }
+    const { id } = router.query;
+    console.log('%c⧭', 'color: #00b300', id);
+    if (id) {
+      getAd({
+        variables: { findAdById: id as string },
+      });
+    }
   }, [router.query.id]);
 
   if (loading) {
@@ -35,27 +32,19 @@ function ViewEdit() {
   }
 
   return (
-    // <div>
-    //   {ad ? (
-    //     <>
-    //       <Form initialData={ad}/>
-    //       {/* <SheetAd {...ad} /> */}
-    //       {/* <div>Titre: {ad?.title}</div>
-    //       <div>Prix: {ad?.price}</div>
-    //       <div>Description: {ad?.description}</div> */}
-    //     </>
-    //   
-    //   )}
-    // </div>
     <div>
       {data?.findAdById ? (
         <>
-        <Form data={data?.findAdById} />
+          <Form data={data?.findAdById} />
+          {/* <SheetAd {...ad} /> */}
+          {/* <div>Titre: {ad?.title}</div>
+          <div>Prix: {ad?.price}</div>
+          <div>Description: {ad?.description}</div> */}
         </>
       ) : (
         <div>L'annonce n'existe pas</div>
-        )}
-      </div>
+      )}
+    </div>
   );
 }
 

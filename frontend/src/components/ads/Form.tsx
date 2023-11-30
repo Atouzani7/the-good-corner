@@ -1,4 +1,5 @@
 // import styles from "@/styles/pages/ads/Form.module.css";
+import style from "/src/styles/components/ads/Form.module.css";
 // import { IAdForm, FormEditOrCreate, IUpdateForm } from "@/types/ads";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -133,11 +134,11 @@ function Form({ data }: { data: FindForEditAdByIdQuery["findAdById"] }) {
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={style.form} onSubmit={handleSubmit}>
       <input
         name="title"
         placeholder="titre"
-        className={styles.inputForm}
+        className={style.inputForm}
         onChange={handleChange}
         value={formulaireData.title}
       />
@@ -145,21 +146,21 @@ function Form({ data }: { data: FindForEditAdByIdQuery["findAdById"] }) {
       <input
         name="description"
         placeholder="description"
-        className={styles.inputForm}
+        className={style.inputForm}
         onChange={handleChange}
         value={formulaireData.description ?? ""}
       />
       <input
         name="owner"
         placeholder="owner"
-        className={styles.inputForm}
+        className={style.inputForm}
         onChange={handleChange}
         value={formulaireData.owner}
       />
       <input
         name="price"
         placeholder="price"
-        className={styles.inputForm}
+        className={style.inputForm}
         onChange={handleChange}
         type="number"
         step=".01"
@@ -171,19 +172,19 @@ function Form({ data }: { data: FindForEditAdByIdQuery["findAdById"] }) {
       <input
         name="location"
         placeholder="location"
-        className={styles.inputForm}
+        className={style.inputForm}
         onChange={handleChange}
         value={formulaireData.location}
       />
       <input
         name="picture"
         placeholder="picture"
-        className={styles.inputForm}
+        className={style.inputForm}
         onChange={handleChange}
         value={formulaireData.picture}
       />
       <select
-        className={styles.inputForm}
+        className={style.inputForm}
         onChange={handleChange}
         name="category"
         value={formulaireData.category?.id}

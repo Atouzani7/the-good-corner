@@ -45,6 +45,12 @@ export type AdDeleted = {
   updatedAt: Scalars['String']['output'];
 };
 
+export type AdWithCount = {
+  __typename?: 'AdWithCount';
+  ads: Array<Ad>;
+  count: Scalars['Float']['output'];
+};
+
 export type AdWithFilter = {
   __typename?: 'AdWithFilter';
   category: PartialCategoryForFilter;
@@ -121,7 +127,7 @@ export type Query = {
   findAdById: Ad;
   findCategory: Category;
   listAds: Array<Ad>;
-  listAdsByCategory: Array<Ad>;
+  listAdsByCategory: AdWithCount;
   listAdsRandom: Array<Ad>;
   listAdsWithFilter: Array<AdWithFilter>;
   listCategories: Array<Category>;
@@ -140,6 +146,8 @@ export type QueryFindCategoryArgs = {
 
 export type QueryListAdsByCategoryArgs = {
   id: Scalars['String']['input'];
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  offset?: InputMaybe<Scalars['Float']['input']>;
 };
 
 
@@ -193,10 +201,12 @@ export type DeleteAdMutation = { __typename?: 'Mutation', deleteAd: { __typename
 
 export type ListAdsByCategoryQueryVariables = Exact<{
   listAdsByCategoryId: Scalars['String']['input'];
+  offset?: InputMaybe<Scalars['Float']['input']>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
 }>;
 
 
-export type ListAdsByCategoryQuery = { __typename?: 'Query', listAdsByCategory: Array<{ __typename?: 'Ad', id: string, picture: string, price: number, title: string }> };
+export type ListAdsByCategoryQuery = { __typename?: 'Query', listAdsByCategory: { __typename?: 'AdWithCount', count: number, ads: Array<{ __typename?: 'Ad', id: string, picture: string, price: number, title: string }> } };
 
 export type FindAdByIdQueryVariables = Exact<{
   findAdById: Scalars['String']['input'];
@@ -343,12 +353,15 @@ export type DeleteAdMutationHookResult = ReturnType<typeof useDeleteAdMutation>;
 export type DeleteAdMutationResult = Apollo.MutationResult<DeleteAdMutation>;
 export type DeleteAdMutationOptions = Apollo.BaseMutationOptions<DeleteAdMutation, DeleteAdMutationVariables>;
 export const ListAdsByCategoryDocument = gql`
-    query ListAdsByCategory($listAdsByCategoryId: String!) {
-  listAdsByCategory(id: $listAdsByCategoryId) {
-    id
-    picture
-    price
-    title
+    query ListAdsByCategory($listAdsByCategoryId: String!, $offset: Float, $limit: Float) {
+  listAdsByCategory(id: $listAdsByCategoryId, offset: $offset, limit: $limit) {
+    count
+    ads {
+      id
+      picture
+      price
+      title
+    }
   }
 }
     `;
@@ -366,6 +379,8 @@ export const ListAdsByCategoryDocument = gql`
  * const { data, loading, error } = useListAdsByCategoryQuery({
  *   variables: {
  *      listAdsByCategoryId: // value for 'listAdsByCategoryId'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
  *   },
  * });
  */

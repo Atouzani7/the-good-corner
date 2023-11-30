@@ -2,7 +2,7 @@ import styles from "@/styles/components/ads/Card.module.css";
 import { IAdCard } from "@/types/ads";
 import Link from "next/link";
 import { formatAmount } from "@/lib/utilities";
-function Card({ id, picture, price, title }: IAdCard) {
+function Card({ id, picture, price, title, description }: IAdCard) {
   return (
     <div className={styles.card}>
       <div>{title}</div>

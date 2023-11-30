@@ -1,0 +1,11 @@
+.cardBlocCat{
+
+    padding: 40px;
+    /* border: solid black 2px */
+    display: flex;
+    justify-content:space-around;
+}
+
+.listCard{
+    border: solid 2px red;
+}

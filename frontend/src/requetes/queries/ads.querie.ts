@@ -1,12 +1,25 @@
 import { gql } from "@apollo/client";
 
+// export const LIST_ADS_BY_CATEGORY_ID = gql`
+//   query ListAdsByCategory($listAdsByCategoryId: String!) {
+//     listAdsByCategory(id: $listAdsByCategoryId) {
+//       id
+//       picture
+//       price
+//       title
+//     }
+//   }
+// `;
 export const LIST_ADS_BY_CATEGORY_ID = gql`
-  query ListAdsByCategory($listAdsByCategoryId: String!) {
-    listAdsByCategory(id: $listAdsByCategoryId) {
-      id
-      picture
-      price
-      title
+  query ListAdsByCategory($listAdsByCategoryId: String!, $offset: Float, $limit: Float) {
+    listAdsByCategory(id: $listAdsByCategoryId, offset: $offset, limit: $limit) {
+      count
+      ads {
+        id
+        picture
+        price
+        title
+      }
     }
   }
 `;
@@ -38,6 +51,7 @@ export const FIND_FOR_EDIT_AD_BY_ID = gql`
     }
   }
 `;
+
 export const LIST_ADS_WITH_FILTER = gql`
   query ListAdsWithFilter($filter: FilterAd!) {
     listAdsWithFilter(filter: $filter) {
@@ -47,6 +61,17 @@ export const LIST_ADS_WITH_FILTER = gql`
         name
         id
       }
+    }
+  }
+`;
+
+export const LIST_ADS_RANDOM = gql`
+  query ListAdsRandom {
+    listAdsRandom {
+      id
+      picture
+      price
+      title
     }
   }
 `;

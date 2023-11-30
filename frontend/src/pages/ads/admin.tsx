@@ -12,7 +12,9 @@ function AdminAds() {
       }
     },
   });
-  const [getAdsByCategory, {data: dataAds}] = useListAdsByCategoryLazyQuery()
+  const [getAdsByCategory, {data: dataAds}] = useListAdsByCategoryLazyQuery({ 
+    fetchPolicy: 'no-cache',
+   })
   const [filter, setFilter] = useState<number>();
 
   useEffect(() => {
